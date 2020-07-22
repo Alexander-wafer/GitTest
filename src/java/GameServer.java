@@ -30,6 +30,12 @@ public class GameServer extends HttpServlet {
        Cookie cookieUser;//Which player is playing
        Cookie cookieAttempts;//attempts are saved here
        
+       String[] replyArr;//The user's response will be stored here
+       String[] numberArr;//The parsed hidden number will be stored here
+       
+       int bull;
+       int cow;
+       
         
         
        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,17 +43,6 @@ public class GameServer extends HttpServlet {
         number = "";
         attempts = 0;
         
-       
-        
-        Set<Integer> generated = new HashSet<Integer>();
-        Random r = new Random();
-        while (generated.size() < 4) {
-        generated.add(r.nextInt(9) + 1);
-        }
-        for(Integer item:generated){
-            number += item;
-        }
-        track.add(number);
         
         Cookie[] cookies = request.getCookies();
         String cookieName = "user";
@@ -59,6 +54,17 @@ public class GameServer extends HttpServlet {
                 }
             }
         }
+        
+        Set<Integer> generated = new HashSet<Integer>();
+        Random r = new Random();
+        while (generated.size() < 4) {
+        generated.add(r.nextInt(9) + 1);
+        }
+        for(Integer item:generated){
+            number += item;
+        }
+        track.add(number);
+        
         track.add("играет - "+cookieUser.getValue());
         request.setAttribute("number", number);
         request.setAttribute("track", track);
@@ -71,30 +77,17 @@ public class GameServer extends HttpServlet {
         PrintWriter writer = response.getWriter();
         String reply = request.getParameter("reply");
         
-        int bull = 0;
-        int cow  = 0;
+        bull = 0;
+        cow  = 0;
         attempts++;
         
-        Cookie cookieAttempts = new Cookie("attempts", Integer.toString(attempts));
+        cookieAttempts = new Cookie("attempts", Integer.toString(attempts));
         response.addCookie(cookieAttempts);
         cookieAttempts.setMaxAge(-1);
         
         
-        Cookie[] cookies = request.getCookies();
-        String cookieName = "attempts";
-        if(cookies !=null) {
-            for(Cookie c: cookies) {
-                if(cookieName.equals(c.getName())) {
-                    cookieAttempts = c;
-                    break;
-                }
-            }
-        }else{
-            response.sendRedirect("Door");
-        }
-        
-        String[] replyArr = reply.split("");
-        String[] numberArr = number.split("");
+        replyArr = reply.split("");
+        numberArr = number.split("");
         
         for(int i = 0;i<replyArr.length;i++){
             if (replyArr[i].equals(numberArr[i])) {

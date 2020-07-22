@@ -21,6 +21,7 @@
         }
     </style>
     <body>
+        <a href="index.html">главная</a>
         <div class="block">
             <h1>игра началась</h1>
             <%
@@ -36,8 +37,6 @@
                 <br>
                 <a href="GameServer">новая игра</a>
             </form>
-
-            
         </div>
     </body>
 </html>
