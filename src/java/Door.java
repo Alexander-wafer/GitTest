@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +33,7 @@ public class Door extends HttpServlet {
         try {
             User user = fm.fileLoad(name+".bin");
             if(!user.getPassword().equals(password)){
-                response.sendRedirect(path+"/index.html");
+                response.sendRedirect(path+File.separator+"index.html");
             }else{
                 Cookie cookie = new Cookie("user", name);
                 cookie.setMaxAge(-1);
@@ -42,7 +43,7 @@ public class Door extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Door.class.getName()).log(Level.SEVERE, null, ex);
         }catch(FileNotFoundException fne){
-            response.sendRedirect(path+"/index.html");
+            response.sendRedirect(path+File.separator+"index.html");
         }
         
         

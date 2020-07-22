@@ -14,13 +14,13 @@ public class FileManager{
     
     
     FileManager(){
-        path = getClass().getResource("/").getPath();
-        folder = new File(path+"/Users");
+        path = getClass().getResource(File.separator).getPath();
+        folder = new File(path+File.separator+"Users");
         folder.mkdir();
     }
     
     public void fileSave(User user,String nameFile) throws FileNotFoundException, IOException{
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path+"/Users/"+nameFile+".bin"));
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path+File.separator+"Users"+File.separator+nameFile+".bin"));
         oos.writeObject(user);
         oos.close();
     }
